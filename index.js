@@ -12,8 +12,8 @@ function DenonAVRAccessory(log, config) {
     this.log = log;
     this.config = config;
     this.ip = config['ip'];
-    this.defaultInput = config['defaultInput'] || false;
-    this.defaultVolume = config['defaultVolume'] || false;
+    this.defaultInput = config['defaultInput'] || null;
+    this.defaultVolume = config['defaultVolume'] || null;
 
     this.denon = new Denon(this.ip);
     this.denon.getName(function (err, res) {
@@ -25,40 +25,47 @@ function DenonAVRAccessory(log, config) {
 }
 
 DenonAVRAccessory.prototype.getPowerState = function (callback) {
-    this.denon.getPowerState(function (err, res) {
+    this.denon.getPowerState(function (err, state) {
         if (err) {
             this.log(err);
             callback(err);
         } else
-            this.log('current power state is: %s', res);
-        callback(null, res);
+            this.log('current power state is: %s', (state) ? 'ON' : 'OFF');
+        callback(null, state);
     }.bind(this));
 };
 
 DenonAVRAccessory.prototype.setPowerState = function (powerState, callback) {
-    this.denon.setPowerState(powerState, function (err, state) {
-        if (err) {
-            this.log(err);
-            callback(err);
-        } else {
-            this.log('denon avr powered %s', state);
-            callback(null);
-        }
-    }.bind(this));
-
     if (powerState && this.defaultInput) {
         this.denon.setInput(this.defaultInput, function (err) {
-            if (err)
+            if (err) {
                 this.log('Error setting default input');
+                callback(err);
+            }
+        }.bind(this));
+    } else {
+        this.denon.setPowerState(powerState, function (err, state) {
+            if (err) {
+                this.log(err);
+                callback(err);
+            } else {
+                this.log('denon avr powered %s', state);
+            }
         }.bind(this));
     }
 
     if (powerState && this.defaultVolume) {
-        this.denon.setVolume(this.defaultInput, function (err) {
-            if (err)
-                this.log('Error setting default volume');
-        }.bind(this));
+        setTimeout(function() {
+            this.denon.setVolume(this.defaultVolume, function (err) {
+                if (err) {
+                    this.log('Error setting default volume');
+                    callback(err);
+                }
+            }.bind(this));
+        }.bind(this), 4000);
     }
+
+    callback(null);
 };
 
 DenonAVRAccessory.prototype.getServices = function () {
