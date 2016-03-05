@@ -11,9 +11,12 @@
         {
             "accessory": "DenonAVR",
             "name": "Denon LivingRoom",
+            "type": "Denon",
             "ip": "192.168.1.99",
             "defaultInput": "IRADIO",
-            "defaultVolume": 35
+            "defaultVolume": 35,
+            "minVolume": 10,
+            "maxVolume": 45
         }
     ]
 }

@@ -12,14 +12,15 @@ function DenonAVRAccessory(log, config) {
     this.log = log;
     this.config = config;
     this.ip = config['ip'];
+    this.type = config['type'];
+    this.name = config['name'];
+
     this.defaultInput = config['defaultInput'] || null;
     this.defaultVolume = config['defaultVolume'] || null;
+    this.minVolume = config['minVolume'] || null;
+    this.maxVolume = config['maxVolume'] || null;
 
-    this.denon = new Denon(this.ip);
-    this.denon.getName(function (err, res) {
-        if (!err)
-            this.name = res;
-    }.bind(this));
+    this.denon = new Denon(this.ip, this.type);
 
     this.service = new Service.Switch('Power');
 }
@@ -73,7 +74,7 @@ DenonAVRAccessory.prototype.getServices = function () {
 
     informationService
         .setCharacteristic(Characteristic.Name, this.name)
-        .setCharacteristic(Characteristic.Manufacturer, 'Denon')
+        .setCharacteristic(Characteristic.Manufacturer, this.type)
         .setCharacteristic(Characteristic.Model, this.name)
         .setCharacteristic(Characteristic.SerialNumber, 'unknown');
 

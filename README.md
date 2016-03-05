@@ -1,5 +1,5 @@
 # Homebridge-Denon
-homebridge-plugin for Denon AVR control with Apple-Homekit. Works with most Denon AVR since 2011.
+homebridge-plugin for Denon and Marantz AVR control with Apple-Homekit. Works with most Denon AVR since 2011.
 
 #Installation
 Follow the instruction in [NPM](https://www.npmjs.com/package/homebridge) for the homebridge server installation. The plugin is published through [NPM](https://www.npmjs.com/package/homebridge-denon) and should be installed "globally" by typing:
@@ -26,8 +26,11 @@ Example:
               "accessory": "DenonAVR",
               "name": "Denon LivingRoom",
               "ip": "192.168.1.99",
+              "type" : "Denon"
               "defaultInput": "IRADIO",
-              "defaultVolume": 35
+              "defaultVolume": 35,
+              "minVolume": 10,
+              "maxVolume": 45
           }
       ]
   }
@@ -48,3 +51,8 @@ Setting the default input and the default volume is optional. The available inpu
 - 'NETWORK'
 - 'TV'
 - 'IRADIO' (Internet Radio)
+
+
+###todo
+- add volume and mute characteristics
+- add getInput function 
