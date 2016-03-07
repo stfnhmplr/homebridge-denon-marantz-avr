@@ -1,4 +1,4 @@
-# Homebridge-Denon
+# Homebridge-Denon-Marantz-AVR
 homebridge-plugin for Denon and Marantz AVR control with Apple-Homekit. Works with most Denon AVR since 2011.
 
 #Installation
@@ -54,5 +54,6 @@ Setting the default input and the default volume is optional. The available inpu
 
 
 ###todo
+- ~~add getInput function~~
 - add volume and mute characteristics
-- add getInput function 
+
