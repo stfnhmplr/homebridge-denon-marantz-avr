@@ -11,7 +11,7 @@ module.exports = function (homebridge) {
     fixInheritance(DenonAVRAccessory.Mute, Characteristic);
     fixInheritance(DenonAVRAccessory.AudioService, Service);
 
-    homebridge.registerAccessory('homebridge-denon-marantz-avr', 'DenonAVR', DenonAVRAccessory);
+    homebridge.registerAccessory('homebridge-denon-marantz-avr', 'DenonMarantzAVR', DenonAVRAccessory);
 
 };
 

@@ -23,7 +23,7 @@ Example:
       "hint": "Always paste into jsonlint.com validation page before starting your homebridge, saves a lot of frustration",
       "accessories": [
           {
-              "accessory": "DenonAVR",
+              "accessory": "DenonMarantzAVR",
               "name": "Denon LivingRoom",
               "ip": "192.168.1.99",
               "type" : "Denon"
