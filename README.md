@@ -30,7 +30,7 @@ Example:
               "defaultInput": "IRADIO",
               "defaultVolume": 35,
               "minVolume": 10,
-              "maxVolume": 45
+              "maxVolume": 75
           }
       ]
   }
@@ -55,5 +55,5 @@ Setting the default input and the default volume is optional. The available inpu
 
 ###todo
 - ~~add getInput function~~
-- add volume and mute characteristics
+- ~~add volume characteristics~~
 

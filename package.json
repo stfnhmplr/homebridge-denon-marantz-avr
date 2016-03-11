@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "request": "^2.69.0",
+    "util": "^0.10.3",
     "xml2js": "0.4.x"
   }
 }
