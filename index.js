@@ -7,15 +7,12 @@ module.exports = function (homebridge) {
     Service = homebridge.hap.Service;
     Characteristic = homebridge.hap.Characteristic;
 
-<<<<<<< HEAD
     fixInheritance(DenonAVRAccessory.Volume, Characteristic);
     fixInheritance(DenonAVRAccessory.Mute, Characteristic);
     fixInheritance(DenonAVRAccessory.AudioService, Service);
 
-    homebridge.registerAccessory('homebridge-denon', 'DenonAVR', DenonAVRAccessory);
-=======
     homebridge.registerAccessory('homebridge-denon-marantz-avr', 'DenonAVR', DenonAVRAccessory);
->>>>>>> 825949d3dd60d56dc067e40d0acbc5463f597f9b
+
 };
 
 
