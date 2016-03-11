@@ -5,7 +5,7 @@ module.exports = function (homebridge) {
     Service = homebridge.hap.Service;
     Characteristic = homebridge.hap.Characteristic;
 
-    homebridge.registerAccessory('homebridge-denon', 'DenonAVR', DenonAVRAccessory);
+    homebridge.registerAccessory('homebridge-denon-marantz-avr', 'DenonAVR', DenonAVRAccessory);
 };
 
 function DenonAVRAccessory(log, config) {
