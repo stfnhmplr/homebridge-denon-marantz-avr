@@ -176,11 +176,9 @@ DenonAVRAccessory.prototype.getServices = function () {
 
     informationService
         .setCharacteristic(Characteristic.Name, this.name)
-        .setCharacteristic(Characteristic.Manufacturer, this.type)
-        .setCharacteristic(Characteristic.Model, this.name)
-        .setCharacteristic(Characteristic.SerialNumber, 'denon-serial-number');
+        .setCharacteristic(Characteristic.Manufacturer, this.type);
 
-    var switchService = new Service.Switch('Power');
+    var switchService = new Service.Switch(this.name);
     switchService.getCharacteristic(Characteristic.On)
         .on('get', this.getPowerState.bind(this))
         .on('set', this.setPowerState.bind(this));
