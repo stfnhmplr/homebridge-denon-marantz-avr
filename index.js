@@ -43,7 +43,7 @@ function DenonAVRAccessory(log, config) {
 
 //custom characteristics
 DenonAVRAccessory.Volume = function () {
-    Characteristic.call(this, 'Volume', '69c6d5d6-826b-4e61-8ed1-ff2bf994e0c1');
+    Characteristic.call(this, 'Volume', '00001001-0000-1000-8000-135D67EC4377');
     this.setProps({
         format: Characteristic.Formats.UINT8,
         unit: Characteristic.Units.PERCENTAGE,
