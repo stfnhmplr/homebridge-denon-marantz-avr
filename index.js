@@ -30,7 +30,6 @@ function DenonAVRAccessory(log, config) {
     this.log = log;
     this.config = config;
     this.ip = config['ip'];
-    this.type = config['type'];
     this.name = config['name'];
 
     this.defaultInput = config['defaultInput'] || null;
@@ -38,7 +37,8 @@ function DenonAVRAccessory(log, config) {
     this.minVolume = config['minVolume'] || 0;
     this.maxVolume = config['maxVolume'] || 70;
 
-    this.denon = new Denon(this.ip, this.type);
+    this.denon = new Denon(this.ip);
+
 }
 
 //custom characteristics

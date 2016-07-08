@@ -11,7 +11,7 @@ Follow the instruction in [NPM](https://www.npmjs.com/package/homebridge) for th
 config.json
 
 Example:
-    
+
     {
       "bridge": {
           "name": "Homebridge",
@@ -26,7 +26,6 @@ Example:
               "accessory": "DenonMarantzAVR",
               "name": "Denon LivingRoom",
               "ip": "192.168.1.99",
-              "type" : "Denon"
               "defaultInput": "IRADIO",
               "defaultVolume": 35,
               "minVolume": 10,
@@ -34,7 +33,7 @@ Example:
           }
       ]
   }
-  
+
 ##possible default inputs
 Setting the default input and the default volume is optional. The available inputs depend on your avr model.
 
@@ -56,7 +55,7 @@ Setting the default input and the default volume is optional. The available inpu
 ###todo
 - ~~add getInput function~~
 - ~~add volume characteristics~~
- 
+
 ###notes
 If you are interested in setting the volume of your reciever with Siri than [this](https://github.com/robertvorthman/homebridge-marantz-volume) plugin might be a good addition. Only remember to not tell Siri "Set the light in the Living room to 100 %" ;)
 homebridge-marantz-volume was written by Robert Vorthman (thanks!)
