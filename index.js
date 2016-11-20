@@ -86,23 +86,22 @@ DenonAVRAccessory.prototype.getPowerState = function (callback) {
 
 
 DenonAVRAccessory.prototype.setPowerState = function (powerState, callback) {
-    if (powerState && this.defaultInput) {
-        this.denon.setInput(this.defaultInput, function (err) {
-            if (err) {
-                this.log('Error setting default input');
-                callback(err);
+    this.denon.setPowerState(powerState, function (err, state) {
+        if (err) {
+            this.log(err);
+            callback(err);
+        } else {
+            if(this.defaultInput) {
+                this.denon.setInput(this.defaultInput, function (err) {
+                    if (err) {
+                        this.log('Error setting default input');
+                        callback(err);
+                    }
+                }.bind(this));
             }
-        }.bind(this));
-    } else {
-        this.denon.setPowerState(powerState, function (err, state) {
-            if (err) {
-                this.log(err);
-                callback(err);
-            } else {
-                this.log('denon avr powered %s', state);
-            }
-        }.bind(this));
-    }
+            this.log('denon avr powered %s', state);
+        }
+    }.bind(this));
 
     if (powerState && this.defaultVolume) {
         setTimeout(function () {
