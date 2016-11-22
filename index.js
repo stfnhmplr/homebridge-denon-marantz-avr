@@ -91,7 +91,7 @@ DenonAVRAccessory.prototype.setPowerState = function (powerState, callback) {
             this.log(err);
             callback(err);
         } else {
-            if(this.defaultInput) {
+            if(powerState && this.defaultInput) {
                 this.denon.setInput(this.defaultInput, function (err) {
                     if (err) {
                         this.log('Error setting default input');
