@@ -7,9 +7,9 @@ module.exports = function (homebridge) {
     Service = homebridge.hap.Service;
     Characteristic = homebridge.hap.Characteristic;
 
-    fixInheritance(DenonAVRAccessory.Volume, Characteristic);
-    fixInheritance(DenonAVRAccessory.Mute, Characteristic);
-    fixInheritance(DenonAVRAccessory.AudioService, Service);
+    // fixInheritance(DenonAVRAccessory.Volume, Characteristic);
+    // fixInheritance(DenonAVRAccessory.Mute, Characteristic);
+    // fixInheritance(DenonAVRAccessory.AudioService, Service);
 
     homebridge.registerAccessory('homebridge-denon-marantz-avr', 'DenonMarantzAVR', DenonAVRAccessory);
 
@@ -40,37 +40,6 @@ function DenonAVRAccessory(log, config) {
     this.denon = new Denon(this.ip);
 
 }
-
-//custom characteristics
-DenonAVRAccessory.Volume = function () {
-    Characteristic.call(this, 'Volume', '00001001-0000-1000-8000-135D67EC4377');
-    this.setProps({
-        format: Characteristic.Formats.UINT8,
-        unit: Characteristic.Units.PERCENTAGE,
-        maxValue: 100,
-        minValue: 0,
-        minStep: 1,
-        perms: [Characteristic.Perms.READ, Characteristic.Perms.WRITE, Characteristic.Perms.NOTIFY]
-    });
-    this.value = this.getDefaultValue();
-};
-
-
-DenonAVRAccessory.Mute = function () {
-    Characteristic.call(this, 'Mute', '6b5e0bed-fdbe-40b6-84e1-12ca1562babd');
-    this.setProps({
-        format: Characteristic.Formats.UINT8,
-        perms: [Characteristic.Perms.READ, Characteristic.Perms.WRITE, Characteristic.Perms.NOTIFY]
-    });
-    this.value = this.getDefaultValue();
-}
-
-
-DenonAVRAccessory.AudioService = function (displayName, subtype) {
-    Service.call(this, displayName, '48a7057e-cb08-407f-bf03-6317700b3085', subtype);
-    this.addCharacteristic(DenonAVRAccessory.Volume);
-    this.addOptionalCharacteristic(DenonAVRAccessory.Mute);
-};
 
 
 DenonAVRAccessory.prototype.getPowerState = function (callback) {
@@ -182,10 +151,18 @@ DenonAVRAccessory.prototype.getServices = function () {
         .on('get', this.getPowerState.bind(this))
         .on('set', this.setPowerState.bind(this));
 
-    var audioService = new DenonAVRAccessory.AudioService('Audio Service');
-    audioService.getCharacteristic(DenonAVRAccessory.Volume)
-        .on('get', this.getVolume.bind(this))
-        .on('set', this.setVolume.bind(this));
+    var speakerService = new Service.Speaker(this.name);
 
-    return [informationService, switchService, audioService];
+    //speakerService
+    //    .setCharacteristic(Characteristic.Name, "Main Zone");    
+
+     speakerService.getCharacteristic(Characteristic.Mute)
+         .on('get', this.getMuteState.bind(this))
+         .on('set', this.setMuteState.bind(this));
+
+     speakerService.getCharacteristic(Characteristic.Volume)
+         .on('get', this.getVolume.bind(this))
+         .on('set', this.setVolume.bind(this));
+
+    return [informationService, switchService, speakerService];
 };
