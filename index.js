@@ -7,24 +7,8 @@ module.exports = function (homebridge) {
     Service = homebridge.hap.Service;
     Characteristic = homebridge.hap.Characteristic;
 
-    // fixInheritance(DenonAVRAccessory.Volume, Characteristic);
-    // fixInheritance(DenonAVRAccessory.Mute, Characteristic);
-    // fixInheritance(DenonAVRAccessory.AudioService, Service);
-
     homebridge.registerAccessory('homebridge-denon-marantz-avr', 'DenonMarantzAVR', DenonAVRAccessory);
-
 };
-
-
-function fixInheritance(subclass, superclass) {
-    var proto = subclass.prototype;
-    inherits(subclass, superclass);
-    subclass.prototype.parent = superclass.prototype;
-    for (var mn in proto) {
-        subclass.prototype[mn] = proto[mn];
-    }
-}
-
 
 function DenonAVRAccessory(log, config) {
     this.log = log;
@@ -79,6 +63,8 @@ DenonAVRAccessory.prototype.setPowerState = function (powerState, callback) {
                     this.log('Error setting default volume');
                     callback(err);
                 }
+                this.speakerService.getCharacteristic(Characteristic.Volume)
+                  .updateValue(Math.round(this.defaultVolume / this.maxVolume * 100));
             }.bind(this));
         }.bind(this), 4000);
     }
@@ -151,18 +137,18 @@ DenonAVRAccessory.prototype.getServices = function () {
         .on('get', this.getPowerState.bind(this))
         .on('set', this.setPowerState.bind(this));
 
-    var speakerService = new Service.Speaker(this.name);
+    this.speakerService = new Service.Speaker(this.name);
 
     //speakerService
-    //    .setCharacteristic(Characteristic.Name, "Main Zone");    
+    //    .setCharacteristic(Characteristic.Name, "Main Zone");
 
-     speakerService.getCharacteristic(Characteristic.Mute)
+     this.speakerService.getCharacteristic(Characteristic.Mute)
          .on('get', this.getMuteState.bind(this))
          .on('set', this.setMuteState.bind(this));
 
-     speakerService.getCharacteristic(Characteristic.Volume)
+     this.speakerService.getCharacteristic(Characteristic.Volume)
          .on('get', this.getVolume.bind(this))
          .on('set', this.setVolume.bind(this));
 
-    return [informationService, switchService, speakerService];
+    return [informationService, switchService, this.speakerService];
 };
