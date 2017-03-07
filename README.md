@@ -37,14 +37,16 @@ Example:
   }
 
 ##possible default inputs
-Setting the default input and the default volume is optional. The available inputs depend on your avr model.
+Setting the default input and the default volume is optional. The available inputs depends on your avr model. Please check the official manuals from Denon. https://usa.denon.com/us/downloads/manuals-and-downloads
 
 - 'CD'
 - 'SPOTIFY'
 - 'CBL/SAT'
+- 'SAT/CBL'
 - 'DVD'
 - 'BD' (Bluray)
 - 'GAME'
+- 'GAME2'
 - 'AUX1'
 - 'MPLAY' (Media Player)
 - 'USB/IPOD'
@@ -52,12 +54,20 @@ Setting the default input and the default volume is optional. The available inpu
 - 'NETWORK'
 - 'TV'
 - 'IRADIO' (Internet Radio)
+- 'DOCK'
+- 'IPOD'
+- 'NET/USB'
+- 'RHAPSODY'
+- 'PANDORA'
+- 'LASTFM'
+- 'IRP'
+- 'FAVORITES'
+- 'SERVER'
+- 'FLICKR'
+- 'NAPSTER'
+- 'HDRADIO'
 
-
-###todo
-- ~~add getInput function~~
-- ~~add volume characteristics~~
 
 ###notes
-If you are interested in setting the volume of your reciever with Siri than [this](https://github.com/robertvorthman/homebridge-marantz-volume) plugin might be a good addition. Only remember to not tell Siri "Set the light in the Living room to 100 %" ;)
+If you are interested in setting the volume of your receiver with Siri than [this](https://github.com/robertvorthman/homebridge-marantz-volume) plugin might be a good addition. Only remember to not tell Siri "Set the light in the Living room to 100 %" ;)
 homebridge-marantz-volume was written by Robert Vorthman (thanks!)
