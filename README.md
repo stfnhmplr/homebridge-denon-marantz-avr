@@ -4,12 +4,12 @@ homebridge-plugin for Denon and Marantz AVR control with Apple-Homekit. Works wi
 > With version 0.2.0 this plugin use the new speaker service (>= iOS  10). Please ensure your hap-nodejs and homebridge versions are up-to-date.
 Apples Home App currently doesn't support the Speaker Service. To use this service you can use a non official app like Elgato Eve.
 
-#Installation
+# Installation
 Follow the instruction in [NPM](https://www.npmjs.com/package/homebridge) for the homebridge server installation. The plugin is published through [NPM](https://www.npmjs.com/package/homebridge-denon) and should be installed "globally" by typing:
 
     sudo npm install -g homebridge-denon
 
-#Configuration
+# Configuration
 
 config.json
 
@@ -37,7 +37,7 @@ Example:
       ]
   }
 
-##possible default inputs
+## possible default inputs
 Setting the default input and the default volume is optional. The available inputs depends on your avr model. Please check the official manuals from Denon. https://usa.denon.com/us/downloads/manuals-and-downloads
 
 - 'CD'
@@ -68,10 +68,10 @@ Setting the default input and the default volume is optional. The available inpu
 - 'NAPSTER'
 - 'HDRADIO'
 
-##roadmap
+## roadmap
 - add support for second zone
 
 
-###notes
+### notes
 If you are interested in setting the volume of your receiver with Siri than [this](https://github.com/robertvorthman/homebridge-marantz-volume) plugin might be a good addition. Only remember to not tell Siri "Set the light in the Living room to 100 %" ;)
 homebridge-marantz-volume was written by Robert Vorthman (thanks!)
