@@ -2,7 +2,6 @@ var Service, Characteristic;
 var Denon = require('./lib/denon');
 var inherits = require('util').inherits;
 
-
 module.exports = function (homebridge) {
     Service = homebridge.hap.Service;
     Characteristic = homebridge.hap.Characteristic;
@@ -22,9 +21,7 @@ function DenonAVRAccessory(log, config) {
     this.maxVolume = config['maxVolume'] || 70;
 
     this.denon = new Denon(this.ip);
-
 }
-
 
 DenonAVRAccessory.prototype.getPowerState = function (callback) {
     this.denon.getPowerState(function (err, state) {
@@ -36,7 +33,6 @@ DenonAVRAccessory.prototype.getPowerState = function (callback) {
         callback(null, state);
     }.bind(this));
 };
-
 
 DenonAVRAccessory.prototype.setPowerState = function (powerState, callback) {
     this.denon.setPowerState(powerState, function (err, state) {
@@ -63,7 +59,7 @@ DenonAVRAccessory.prototype.setPowerState = function (powerState, callback) {
                     this.log('Error setting default volume');
                     callback(err);
                 }
-                this.speakerService.getCharacteristic(Characteristic.Volume)
+                this.switchService.getCharacteristic(Characteristic.Volume)
                   .updateValue(Math.round(this.defaultVolume / this.maxVolume * 100));
             }.bind(this));
         }.bind(this), 4000);
@@ -71,7 +67,6 @@ DenonAVRAccessory.prototype.setPowerState = function (powerState, callback) {
 
     callback(null);
 };
-
 
 DenonAVRAccessory.prototype.getVolume = function (callback) {
     this.denon.getVolume(function (err, volume) {
@@ -86,7 +81,6 @@ DenonAVRAccessory.prototype.getVolume = function (callback) {
     }.bind(this))
 };
 
-
 DenonAVRAccessory.prototype.setVolume = function (pVol, callback) {
     var volume = Math.round(pVol / 100 * this.maxVolume);
     this.denon.setVolume(volume, function (err) {
@@ -100,7 +94,6 @@ DenonAVRAccessory.prototype.setVolume = function (pVol, callback) {
     }.bind(this))
 };
 
-
 DenonAVRAccessory.prototype.setMuteState = function (state, callback) {
     this.denon.setMuteState(state, function (err) {
         if (err) {
@@ -111,7 +104,6 @@ DenonAVRAccessory.prototype.setMuteState = function (state, callback) {
         }
     }.bind(this));
 };
-
 
 DenonAVRAccessory.prototype.getMuteState = function (callback) {
     this.denon.getMuteState(function (err, state) {
@@ -124,31 +116,25 @@ DenonAVRAccessory.prototype.getMuteState = function (callback) {
     }.bind(this))
 };
 
-
 DenonAVRAccessory.prototype.getServices = function () {
     var informationService = new Service.AccessoryInformation();
 
     informationService
         .setCharacteristic(Characteristic.Name, this.name)
-        .setCharacteristic(Characteristic.Manufacturer, this.type);
+        .setCharacteristic(Characteristic.Manufacturer, this.type || 'Denon');
 
-    var switchService = new Service.Switch(this.name);
-    switchService.getCharacteristic(Characteristic.On)
+    this.switchService = new Service.Switch(this.name);
+    this.switchService.getCharacteristic(Characteristic.On)
         .on('get', this.getPowerState.bind(this))
         .on('set', this.setPowerState.bind(this));
 
-    this.speakerService = new Service.Speaker(this.name);
+    this.switchService.addCharacteristic(Characteristic.Mute)
+        .on('get', this.getMuteState.bind(this))
+        .on('set', this.setMuteState.bind(this));
 
-    //speakerService
-    //    .setCharacteristic(Characteristic.Name, "Main Zone");
+    this.switchService.addCharacteristic(Characteristic.Volume)
+        .on('get', this.getVolume.bind(this))
+        .on('set', this.setVolume.bind(this));
 
-     this.speakerService.getCharacteristic(Characteristic.Mute)
-         .on('get', this.getMuteState.bind(this))
-         .on('set', this.setMuteState.bind(this));
-
-     this.speakerService.getCharacteristic(Characteristic.Volume)
-         .on('get', this.getVolume.bind(this))
-         .on('set', this.setVolume.bind(this));
-
-    return [informationService, switchService, this.speakerService];
+    return [informationService, this.switchService];
 };
