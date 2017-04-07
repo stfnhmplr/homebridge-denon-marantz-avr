@@ -1,4 +1,5 @@
 # Homebridge-Denon-Marantz-AVR
+[![Package Quality](http://npm.packagequality.com/badge/homebridge-denon.png)](http://packagequality.com/#?package=homebridge-denon)
 homebridge-plugin for Denon and Marantz AVR control with Apple-Homekit. Works with most Denon AVR since 2011.
 
 > With version 0.2.0 this plugin use the new speaker service (>= iOS  10). Please ensure your hap-nodejs and homebridge versions are up-to-date.
