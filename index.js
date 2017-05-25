@@ -72,8 +72,6 @@ DenonAVRAccessory.prototype.getPowerState = function (callback, context) {
 
 
 DenonAVRAccessory.prototype.setPowerState = function (powerState, callback, context) {
-	
-	this.log("set context "+context);
 	var that = this;
 
 	//if context is statuspoll, then we need to ensure that we do not set the actual value
