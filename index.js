@@ -30,6 +30,7 @@ function DenonAVRAccessory(log, config) {
 
     this.denon = new Denon(this.ip);
 	
+	this.setAttempt = 0;
 	this.state = false;
 	if (this.interval < 10 && this.interval > 100000) {
 		this.log("polling interval out of range.. disabled polling");
@@ -42,13 +43,17 @@ function DenonAVRAccessory(log, config) {
 		var statusemitter = pollingtoevent(function(done) {
 			that.log("do poll..")
 			that.getPowerState( function( error, response) {
-				done(error, response);
+				done(error, response, this.setAttempt);
 			}, "statuspoll");
 		}, {longpolling:true,interval:that.pollingInterval * 1000,longpollEventName:"statuspoll"});
 
 		statusemitter.on("statuspoll", function(data) {
 			that.state = data;
 			that.log("poll end, state: "+data);
+			
+			if (that.switchService ) {
+				that.switchService.getCharacteristic(Characteristic.On).setValue(that.state, null, "statuspoll");
+			}
 		});
 	}
 }
@@ -79,6 +84,8 @@ DenonAVRAccessory.prototype.setPowerState = function (powerState, callback, cont
 		callback(null, powerState);
 	    return;
 	}
+	
+	this.setAttempt = this.setAttempt+1;
 	
     this.denon.setPowerState(powerState, function (err, state) {
         if (err) {
