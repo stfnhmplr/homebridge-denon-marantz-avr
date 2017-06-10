@@ -27,7 +27,7 @@ DenonAVRAccessory.prototype.getPowerState = function (callback) {
     this.denon.getPowerState(function (err, state) {
         if (err) {
             this.log(err);
-            callback(err);
+            callback(null, false);
         } else
             this.log('current power state is: %s', (state) ? 'ON' : 'OFF');
         callback(null, state);
