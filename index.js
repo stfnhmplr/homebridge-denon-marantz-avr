@@ -135,7 +135,6 @@ DenonAVRAccessory.prototype.setVolume = function (pVol, callback) {
     this.denon.setVolume(volume, function (err) {
         if (err) {
             this.log('set Volume error: ' + err);
-            callback(err);
         } else {
             this.log('set Volume to: ' + volume);
             callback(null);
