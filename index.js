@@ -67,8 +67,9 @@ DenonAVRAccessory.prototype.getPowerState = function (callback, context) {
 	    this.denon.getPowerState(function (err, state) {
 	        if (err) {
 	            this.log(err);
-	            callback(err);
+	            callback(null, false);
 	        } else {
+				this.log('current power state is: %s', (state) ? 'ON' : 'OFF');
 				callback(null, state);
 	        }
 	    }.bind(this));
@@ -90,13 +91,11 @@ DenonAVRAccessory.prototype.setPowerState = function (powerState, callback, cont
     this.denon.setPowerState(powerState, function (err, state) {
         if (err) {
             this.log(err);
-            callback(err);
         } else {
             if(powerState && this.defaultInput) {
-                this.denon.setInput(this.defaultInput, function (err) {
-                    if (err) {
-                        this.log('Error setting default input');
-                        callback(err);
+                this.denon.setInput(this.defaultInput, function (error) {
+                    if (error) {
+                        this.log('Error setting default input. Please check your config');
                     }
                 }.bind(this));
             }
@@ -109,14 +108,12 @@ DenonAVRAccessory.prototype.setPowerState = function (powerState, callback, cont
             this.denon.setVolume(this.defaultVolume, function (err) {
                 if (err) {
                     this.log('Error setting default volume');
-                    callback(err);
                 }
                 this.switchService.getCharacteristic(Characteristic.Volume)
                   .updateValue(Math.round(this.defaultVolume / this.maxVolume * 100));
             }.bind(this));
         }.bind(this), 4000);
     }
-
     callback(null);
 };
 
