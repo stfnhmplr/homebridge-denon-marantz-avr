@@ -52,7 +52,7 @@ function DenonAVRAccessory(log, config) {
 			that.log("poll end, state: "+data);
 			
 			if (that.switchService ) {
-				that.switchService.getCharacteristic(Characteristic.On).setValue(that.state, null, "statuspoll");
+				that.switchService.getCharacteristic(Characteristic.On).updateValue(that.state, null, "statuspoll");
 			}
 		});
 	}
