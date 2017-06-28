@@ -1,15 +1,20 @@
 var Service, Characteristic;
 var Denon = require('./lib/denon');
 var inherits = require('util').inherits;
+var pollingtoevent = require('polling-to-event');
+
 
 module.exports = function (homebridge) {
     Service = homebridge.hap.Service;
     Characteristic = homebridge.hap.Characteristic;
+
     homebridge.registerAccessory('homebridge-denon-marantz-avr', 'DenonMarantzAVR', DenonAVRAccessory);
 };
 
 function DenonAVRAccessory(log, config) {
     this.log = log;
+	var that = this;
+	
     this.config = config;
     this.ip = config['ip'];
     this.name = config['name'];
@@ -18,23 +23,71 @@ function DenonAVRAccessory(log, config) {
     this.defaultVolume = config['defaultVolume'] || null;
     this.minVolume = config['minVolume'] || 0;
     this.maxVolume = config['maxVolume'] || 70;
+	this.doPolling = config['doPolling'] || false;
+	
+	this.pollingInterval = config['pollingInterval'] || "60";
+	this.pollingInterval = parseInt(this.pollingInterval)
 
     this.denon = new Denon(this.ip);
+	
+	this.setAttempt = 0;
+	this.state = false;
+	if (this.interval < 10 && this.interval > 100000) {
+		this.log("polling interval out of range.. disabled polling");
+		this.doPolling = false;
+	}
+
+	// Status Polling
+	if (this.doPolling) {
+		that.log("start polling..");
+		var statusemitter = pollingtoevent(function(done) {
+			that.log("do poll..")
+			that.getPowerState( function( error, response) {
+				done(error, response, this.setAttempt);
+			}, "statuspoll");
+		}, {longpolling:true,interval:that.pollingInterval * 1000,longpollEventName:"statuspoll"});
+
+		statusemitter.on("statuspoll", function(data) {
+			that.state = data;
+			that.log("poll end, state: "+data);
+			
+			if (that.switchService ) {
+				that.switchService.getCharacteristic(Characteristic.On).updateValue(that.state, null, "statuspoll");
+			}
+		});
+	}
 }
 
-DenonAVRAccessory.prototype.getPowerState = function (callback) {
-    this.denon.getPowerState(function (err, state) {
-        if (err) {
-            this.log(err);
-            callback(null, false);
-        } else {
-            this.log('current power state is: %s', (state) ? 'ON' : 'OFF');
-            callback(null, state);
-        }
-    }.bind(this));
+
+DenonAVRAccessory.prototype.getPowerState = function (callback, context) {
+	
+	if ((!context || context != "statuspoll") && this.doPolling) {
+		callback(null, this.state);
+	} else {
+	    this.denon.getPowerState(function (err, state) {
+	        if (err) {
+	            this.log(err);
+	            callback(null, false);
+	        } else {
+				this.log('current power state is: %s', (state) ? 'ON' : 'OFF');
+				callback(null, state);
+	        }
+	    }.bind(this));
+	}
 };
 
-DenonAVRAccessory.prototype.setPowerState = function (powerState, callback) {
+
+DenonAVRAccessory.prototype.setPowerState = function (powerState, callback, context) {
+	var that = this;
+
+	//if context is statuspoll, then we need to ensure that we do not set the actual value
+	if (context && context == "statuspoll") {
+		callback(null, powerState);
+	    return;
+	}
+	
+	this.setAttempt = this.setAttempt+1;
+	
     this.denon.setPowerState(powerState, function (err, state) {
         if (err) {
             this.log(err);
@@ -82,7 +135,6 @@ DenonAVRAccessory.prototype.setVolume = function (pVol, callback) {
     this.denon.setVolume(volume, function (err) {
         if (err) {
             this.log('set Volume error: ' + err);
-            callback(err);
         } else {
             this.log('set Volume to: ' + volume);
             callback(null);
