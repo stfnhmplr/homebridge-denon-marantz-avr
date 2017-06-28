@@ -15,7 +15,9 @@
             "defaultInput": "IRADIO",
             "defaultVolume": 35,
             "minVolume": 0,
-            "maxVolume": 75
+            "maxVolume": 75,
+            "doPolling": true,
+            "pollingInterval": 60
         }
     ]
 }
