@@ -17,6 +17,8 @@ function DenonAVRAccessory(log, config) {
 	
     this.config = config;
     this.ip = config['ip'];
+    this.port = config['port'] || 80;
+
     this.name = config['name'];
 
     this.defaultInput = config['defaultInput'] || null;
@@ -28,7 +30,7 @@ function DenonAVRAccessory(log, config) {
 	this.pollingInterval = config['pollingInterval'] || "60";
 	this.pollingInterval = parseInt(this.pollingInterval)
 
-    this.denon = new Denon(this.ip);
+    this.denon = new Denon(this.ip, this.port);
 	
 	this.setAttempt = 0;
 	this.state = false;

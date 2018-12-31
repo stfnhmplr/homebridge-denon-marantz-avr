@@ -31,6 +31,7 @@ Example:
               "accessory": "DenonMarantzAVR",
               "name": "Denon LivingRoom",
               "ip": "192.168.1.99",
+              "port": 8080,
               "defaultInput": "IRADIO",
               "defaultVolume": 35,
               "minVolume": 10,
