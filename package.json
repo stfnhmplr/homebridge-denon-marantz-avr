@@ -2,7 +2,7 @@
   "name": "homebridge-denon",
   "version": "0.3.1",
   "description": "Denon and Marantz AVR support for Homebridge: https://github.com/nfarina/homebridge",
-  "license": "ISC",
+  "license": "MIT",
   "keywords": [
     "homebridge-plugin",
     "Denon",
@@ -20,10 +20,27 @@
     "homebridge": ">=0.2.0",
     "hap-nodejs": ">=0.4.13"
   },
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
   "dependencies": {
-    "request": "^2.69.0",
-    "util": "^0.10.3",
-    "xml2js": "0.4.x",
-	"polling-to-event": "2.0.2"
+    "@babel/polyfill": "^7.0.0",
+    "telnet-client": "^0.16.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.6",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/preset-env": "^7.1.6",
+    "@babel/preset-flow": "^7.0.0",
+    "flow-bin": "^0.86.0",
+    "rollup": "^0.67.1",
+    "rollup-plugin-babel": "^4.3.0",
+    "rollup-plugin-node-resolve": "^3.4.0"
+  },
+  "scripts": {
+    "dev": "rollup -c -w",
+    "build": "rollup -c",
+    "prepublishOnly": "npm run build"
   }
 }
