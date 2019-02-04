@@ -3,4 +3,3 @@ node_modules
 .npmignore
 test.js
 .idea
-dist
