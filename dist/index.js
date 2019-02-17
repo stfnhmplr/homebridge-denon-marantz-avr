@@ -148,6 +148,13 @@ function () {
 
       _this.connect();
     });
+    this.denon.on('error', function (err) {
+      // the close event will be called, too
+      _this.log.error(err);
+    });
+    this.denon.on('failedLogin', function () {
+      _this.log.error(`Can't login at ${_this.host}`);
+    });
     this.connect();
   }
 

@@ -32,6 +32,15 @@ class DenonAvrPlatform {
             this.connect()
         })
 
+        this.denon.on('error', (err) => {
+            // the close event will be called, too
+            this.log.error(err)
+        })
+
+        this.denon.on('failedLogin', () => {
+            this.log.error(`Can't login at ${this.host}`)
+        })
+
         this.connect();
     }
 
