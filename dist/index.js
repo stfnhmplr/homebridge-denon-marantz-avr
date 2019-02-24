@@ -103,8 +103,9 @@ function () {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
+              _this.attempts++;
               params = {
-                host: '192.168.178.85',
+                host: _this.host,
                 port: 23,
                 echoLines: 0,
                 irs: '\r',
@@ -114,15 +115,16 @@ function () {
                 shellPrompt: '',
                 timeout: 800
               };
-              _context.next = 3;
+              _context.next = 4;
               return _this.denon.connect(params);
 
-            case 3:
+            case 4:
               _this.connected = true;
+              _this.attempts = 0;
 
               _this.log(`connected to AVR (${_this.host})`);
 
-            case 5:
+            case 7:
             case "end":
               return _context.stop();
           }
@@ -135,6 +137,7 @@ function () {
     this.host = config.host;
     this.queue = [];
     this.connected = false;
+    this.attempts = 0;
     this.denon = new Telnet();
     this.denon.on('connect', function () {
       _this.connected = true;
@@ -146,7 +149,10 @@ function () {
 
       _this.log.debug(`lost connection to ${_this.host}`);
 
-      _this.connect();
+      if (_this.attempts > 5) throw new Error(`Can't connect to AVR on ${_this.host}`);
+      setTimeout(function () {
+        _this.connect();
+      }, 2000);
     });
     this.denon.on('error', function (err) {
       // the close event will be called, too
@@ -163,16 +169,7 @@ function () {
     value: function accessories(callback, attempt) {
       var _this2 = this;
 
-      if (attempt > 4) {
-        throw new Error(`Can't connect to AVR on ${this.host}`);
-        callback([]);
-        return;
-      }
-
-      attempt++;
-
       if (!this.connected) {
-        this.log("Not connected to AVR. Trying again...");
         setTimeout(function () {
           return _this2.accessories(callback, attempt);
         }, 2000);

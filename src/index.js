@@ -18,6 +18,7 @@ class DenonAvrPlatform {
         this.host = config.host
         this.queue = []
         this.connected = false;
+        this.attempts = 0;
 
         this.denon = new Telnet();
 
@@ -29,7 +30,10 @@ class DenonAvrPlatform {
         this.denon.on('close', () => {
             this.connected = false;
             this.log.debug(`lost connection to ${this.host}`)
-            this.connect()
+            if (this.attempts > 5) throw new Error(`Can't connect to AVR on ${this.host}`);
+            setTimeout(() => {
+                this.connect()
+            }, 2000)
         })
 
         this.denon.on('error', (err) => {
@@ -45,16 +49,7 @@ class DenonAvrPlatform {
     }
 
     accessories(callback, attempt) {
-        if (attempt > 4) {
-            throw new Error(`Can't connect to AVR on ${this.host}`);
-            callback([]);
-            return;
-        }
-
-        attempt++;
-
         if (!this.connected) {
-            this.log("Not connected to AVR. Trying again...");
             setTimeout(() => this.accessories(callback, attempt), 2000);
             return;
         }
@@ -66,8 +61,10 @@ class DenonAvrPlatform {
     }
 
     connect = async() => {
+        this.attempts++;
+
         const params = {
-            host: '192.168.178.85',
+            host: this.host,
             port: 23,
             echoLines: 0,
             irs: '\r',
@@ -80,6 +77,7 @@ class DenonAvrPlatform {
 
         await this.denon.connect(params);
         this.connected = true;
+        this.attempts = 0;
         this.log(`connected to AVR (${this.host})`)
     }
 

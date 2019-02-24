@@ -114,9 +114,7 @@ class MainZoneAccessory {
     }
 
     _normalizeVolume(vol) {
-        this.log.debug(`type: ${typeof vol}`)
         vol = vol.length > 2 ? parseInt(vol) / 10 : parseInt(vol)
-        this.log.debug(vol)
         return (vol/this.maxVolume) * 100
     }
 }
