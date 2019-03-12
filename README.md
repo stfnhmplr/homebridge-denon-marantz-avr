@@ -28,7 +28,8 @@ Example:
           "platform": "DenonMarantzAVR",
           "name": "Denon LivingRoom",
           "host": "192.168.178.85",
-          "maxVolume": 70
+          "maxVolume": 70,
+          "secondZone": true
         }
     ]
 }

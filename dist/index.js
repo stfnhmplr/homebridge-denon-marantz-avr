@@ -177,6 +177,12 @@ function () {
       }
 
       var mainZone = new MainZoneAccessory(this);
+
+      if (!this.config.secondZone) {
+        callback([mainZone]);
+        return;
+      }
+
       var secondZone = new SecondZoneAccessory(this);
       callback([mainZone, secondZone]);
     }

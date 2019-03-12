@@ -55,8 +55,13 @@ class DenonAvrPlatform {
         }
 
         const mainZone = new MainZoneAccessory(this);
-        const secondZone = new SecondZoneAccessory(this);
 
+        if (!this.config.secondZone) {
+            callback([mainZone]);
+            return;
+        }
+
+        const secondZone = new SecondZoneAccessory(this);
         callback([mainZone, secondZone]);
     }
 
