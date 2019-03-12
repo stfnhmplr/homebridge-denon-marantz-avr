@@ -279,10 +279,12 @@ function () {
 
         switch (res[i]) {
           case 'PWON':
+          case 'ZMON':
             this.SwitchService.getCharacteristic(Characteristic.On).updateValue(true, null);
             break;
 
           case 'PWSTANDBY':
+          case 'ZMOFF':
             this.SwitchService.getCharacteristic(Characteristic.On).updateValue(false, null);
             break;
 
