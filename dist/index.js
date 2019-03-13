@@ -82,7 +82,7 @@ var MainZoneAccessory, SecondZoneAccessory;
 module.exports = function (homebridge) {
   MainZoneAccessory = require('./accessories/MainZoneAccessory')(homebridge);
   SecondZoneAccessory = require('./accessories/SecondZoneAccessory')(homebridge);
-  homebridge.registerPlatform("homebridge-denon", "DenonMarantzAVR", DenonAvrPlatform, false);
+  homebridge.registerPlatform('homebridge-denon', 'DenonMarantzAVR', DenonAvrPlatform, false);
 };
 
 var DenonAvrPlatform =
@@ -205,7 +205,7 @@ function () {
         this.queue.shift();
       }
 
-      this.denon.send(cmd + "\r").then(function () {
+      this.denon.send(cmd + '\r').then(function () {
         _this3.log.debug(`command ${cmd} successfully send`);
 
         if (_this3.queue.length) setTimeout(function () {
