@@ -6,39 +6,39 @@ export default [
         input: 'src/index.js',
         output: {
             file: 'dist/index.js',
-            format: 'cjs'
+            format: 'cjs',
         },
         plugins: [
             resolve(),
             babel({
-                exclude: 'node_modules/**' // only transpile our source code
-            })
-        ]
+                exclude: 'node_modules/**', // only transpile our source code
+            }),
+        ],
     },
     {
         input: 'src/accessories/MainZoneAccessory.js',
         output: {
             file: 'dist/accessories/MainZoneAccessory.js',
-            format: 'cjs'
+            format: 'cjs',
         },
         plugins: [
             resolve(),
             babel({
-                exclude: 'node_modules/**' // only transpile our source code
-            })
-        ]
+                exclude: 'node_modules/**', // only transpile our source code
+            }),
+        ],
     },
     {
         input: 'src/accessories/SecondZoneAccessory.js',
         output: {
             file: 'dist/accessories/SecondZoneAccessory.js',
-            format: 'cjs'
+            format: 'cjs',
         },
         plugins: [
             resolve(),
             babel({
-                exclude: 'node_modules/**' // only transpile our source code
-            })
-        ]
+                exclude: 'node_modules/**', // only transpile our source code
+            }),
+        ],
     },
-]
+];

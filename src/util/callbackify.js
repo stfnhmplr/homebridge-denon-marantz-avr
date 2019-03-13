@@ -16,6 +16,6 @@ export default function callbackify(func) {
 
         func(...onlyArgs)
             .then(data => callback(null, data))
-            .catch(err => callback(err))
-    }
+            .catch(err => callback(err));
+    };
 }
