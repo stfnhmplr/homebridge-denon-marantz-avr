@@ -26,6 +26,8 @@ class MainZoneAccessory {
 
         this.name = `${platform.config['name']} Main Zone`;
         this.maxVolume = platform.config['maxVolume'] || 70;
+        this.defaultVolume = platform.config['defaultVolume'] || 40;
+        this.defaultInput = platform.config['defaultInput'] || 'DVD';
 
         platform.denon.on('data', data =>
             this.handleResponse(data.toString('utf8').replace(/\r?\n|\r/gm, ''))
@@ -108,24 +110,28 @@ class MainZoneAccessory {
 
     setMute = async state => {
         this.log(`set mute state of main zone to ${state}`);
-        this.platform.send(`MU${state ? 'ON' : 'OFF'}`);
+        await this.platform.send(`MU${state ? 'ON' : 'OFF'}`);
     };
 
     setPower = async state => {
         this.log(`setting power state of main zone to ${state}`);
-        this.platform.send(`PW${state ? 'ON' : 'STANDBY'}`);
+        await this.platform.send(`PW${state ? 'ON' : 'STANDBY'}`);
+        if (state) {
+            await this.setVolume(this.defaultVolume)
+            await this.setInput(this.defaultInput)
+        }
     };
 
     setVolume = async value => {
         const vol = Math.ceil(((value / 100) * this.maxVolume) / 5) * 5;
 
         this.log(`set volume of main zone to ${value} (${vol / 10})`);
-        this.platform.send(`MV${vol}`);
+        await this.platform.send(`MV${vol}`);
     };
 
     setInput = async value => {
         this.log(`setting input source of main zone to ${value}`);
-        this.platform.send(`SI${value.toUpperCase()}`);
+        await this.platform.send(`SI${value.toUpperCase()}`);
     };
 
     _normalizeVolume(vol) {

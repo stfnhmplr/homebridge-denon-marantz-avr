@@ -1,11 +1,15 @@
-# Homebridge-Denon-Marantz-AVR
+# Homebridge Denon Marrantz
 
 homebridge-plugin for Denon and Marantz AVR control with Apple-Homekit. Works with most Denon AVR since 2011, supports a second zone and implements the speaker service.
+
+# Why V2?
+
+I add `defaulVolume` and `defaulInput` parameters so when you turn on it's set a default parameter
 
 # Installation
 Follow the instruction in [NPM](https://www.npmjs.com/package/homebridge) for the homebridge server installation. The plugin is published through [NPM](https://www.npmjs.com/package/homebridge-denon) and should be installed "globally" by typing:
 
-    sudo npm install -g homebridge-denon
+    sudo npm install -g homebridge-denon-v2
 
 # Configuration
 
@@ -28,7 +32,9 @@ Example:
           "platform": "DenonMarantzAVR",
           "name": "Denon LivingRoom",
           "host": "192.168.178.85",
-          "maxVolume": 70,
+          "maxVolume": 100,
+          "defaulVolume": 35,
+          "defaulInput": "DVD",
           "secondZone": true
         }
     ]
