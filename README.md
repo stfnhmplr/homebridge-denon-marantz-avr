@@ -4,7 +4,7 @@ homebridge-plugin for Denon and Marantz AVR control with Apple-Homekit. Works wi
 
 # Why V2?
 
-I add `defaulVolume` and `defaulInput` parameters so when you turn on it's set a default parameter
+I add `defaultVolume` and `defaultInput` parameters so when you turn on it's set a default parameter
 
 # Installation
 Follow the instruction in [NPM](https://www.npmjs.com/package/homebridge) for the homebridge server installation. The plugin is published through [NPM](https://www.npmjs.com/package/homebridge-denon) and should be installed "globally" by typing:
@@ -33,8 +33,8 @@ Example:
           "name": "Denon LivingRoom",
           "host": "192.168.178.85",
           "maxVolume": 100,
-          "defaulVolume": 35,
-          "defaulInput": "DVD",
+          "defaultVolume": 35,
+          "defaultInput": "DVD",
           "secondZone": true
         }
     ]
