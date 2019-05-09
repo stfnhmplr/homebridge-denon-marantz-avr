@@ -28,17 +28,4 @@ export default [
             }),
         ],
     },
-    {
-        input: 'src/accessories/SecondZoneAccessory.js',
-        output: {
-            file: 'dist/accessories/SecondZoneAccessory.js',
-            format: 'cjs',
-        },
-        plugins: [
-            resolve(),
-            babel({
-                exclude: 'node_modules/**', // only transpile our source code
-            }),
-        ],
-    },
 ];

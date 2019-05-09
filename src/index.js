@@ -2,12 +2,11 @@
 
 require('@babel/polyfill')
 const Telnet = require('telnet-client')
-let MainZoneAccessory, SecondZoneAccessory
+let MainZoneAccessory
 
 module.exports = function (homebridge) {
     MainZoneAccessory = require('./accessories/MainZoneAccessory')(homebridge)
-    SecondZoneAccessory = require('./accessories/SecondZoneAccessory')(homebridge)
-    homebridge.registerPlatform('homebridge-denon-v2', 'DenonMarantzAVR', DenonAvrPlatform, false)
+    homebridge.registerPlatform('homebridge-denon-v2', 'DenonMarantzAVR', DenonAvrPlatform)
 }
 
 class DenonAvrPlatform {
@@ -54,14 +53,7 @@ class DenonAvrPlatform {
         }
 
         const mainZone = new MainZoneAccessory(this)
-
-        if (!this.config.secondZone) {
-            callback([mainZone])
-            return
-        }
-
-        const secondZone = new SecondZoneAccessory(this)
-        callback([mainZone, secondZone])
+        callback([mainZone])
     }
 
     connect = async () => {
@@ -103,8 +95,8 @@ class DenonAvrPlatform {
         return new Promise((resolve, reject) => {
             this.denon
                 .send(cmd + '\r')
-                .then(() => {
-                    this.log.debug(`command ${cmd} successfully send`)
+                .then(message => {
+                    this.log.debug(`command ${cmd} successfully send,${message}`)
                     if (this.queue.length) {
                         setTimeout(() => {
                             resolve()
