@@ -1,3 +1,5 @@
+**DEPRACATED see: https://github.com/moifort/homebridge-denon**
+
 # Homebridge Denon Marrantz
 
 homebridge-plugin for Denon and Marantz AVR control with Apple-Homekit. Works with most Denon AVR since 2011, supports a second zone and implements the speaker service.
