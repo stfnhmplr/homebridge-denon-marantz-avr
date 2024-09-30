@@ -3,6 +3,7 @@
     "version": "0.4.0",
     "description": "Denon and Marantz AVR support for Homebridge: https://github.com/nfarina/homebridge",
     "license": "MIT",
+    "type": "module",
     "keywords": [
         "homebridge-plugin",
         "Denon",
@@ -34,7 +35,7 @@
         "@babel/preset-env": "^7.1.6",
         "@babel/preset-flow": "^7.0.0",
         "flow-bin": "^0.86.0",
-        "rollup": "^0.67.1",
+        "rollup": "^4.22.5",
         "rollup-plugin-babel": "^4.3.0",
         "rollup-plugin-node-resolve": "^3.4.0"
     },
@@ -46,7 +47,7 @@
     "prettier": {
         "singleQuote": true,
         "tabWidth": 4,
-        "trailingComma": true,
+        "trailingComma": "all",
         "printWidth": 100
     }
 }
